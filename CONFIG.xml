@@ -1,0 +1,45 @@
+<settings>
+
+	<serialport>        
+          <port numbercom="1" baudrate="19200" cycletime="1000" />		  
+	</serialport>
+
+	<devices>
+        
+        <device protocol="dcom" portnum="2" address="1" name="EX7043" write="true" skip="true" >
+            <tag bit="0" idopc="100" >000</tag>
+            <tag bit="1" idopc="101" >001</tag>
+            <tag bit="2" idopc="102" >002</tag>
+            <tag bit="3" idopc="103" >003</tag>
+            <tag bit="4" idopc="104" >004</tag>
+            <tag bit="5" idopc="105" >005</tag>
+            <tag bit="6" idopc="106" >006</tag>
+            <tag bit="7" idopc="107" >007</tag>
+            <tag bit="8" idopc="108" >008</tag>
+            <tag bit="9" idopc="109" >009</tag>
+            <tag bit="10" idopc="110" >00a</tag>
+            <tag bit="11" idopc="111" >00b</tag>
+            <tag bit="12" idopc="112" >00c</tag>
+            <tag bit="13" idopc="113" >00e</tag>
+            <tag bit="14" idopc="114" >00f</tag>
+            <tag bit="15" idopc="115" >00z</tag>
+        </device>
+		
+		<device protocol="modbus" portnum="1" address="9" name="bsu1" checkwrite="false" >
+			<tag address="40961"  idopc="250" valtype="int" mbusfunction="4" write="false">Status</tag>
+			<tag address="40962"  idopc="251" valtype="real" mbusfunction="4" write="false">TekVes</tag>
+			<tag address="40972"  idopc="256" valtype="real" mbusfunction="4" write="false">Doza1R</tag>
+			<tag address="40974"  idopc="257" valtype="real" mbusfunction="4" write="false">Doza2R</tag>
+            <tag address="40976"  idopc="258" valtype="real" mbusfunction="4" write="false">Doza3R</tag>
+            <tag address="40978"  idopc="259" valtype="real" mbusfunction="4" write="false">Doza4R</tag>
+            
+            <tag address="41984"  idopc="260" valtype="int" mbusfunction="4" write="true">Upravl</tag>
+            <tag address="41985"  idopc="261" valtype="int" mbusfunction="4" write="true">Doza1</tag>
+            <tag address="41986"  idopc="262" valtype="int" mbusfunction="4" write="true">Doza2</tag>
+            <tag address="41987"  idopc="263" valtype="int" mbusfunction="4" write="true">Doza3</tag>
+            <tag address="41988"  idopc="264" valtype="int" mbusfunction="4" write="true">Doza4</tag>
+	    </device>
+
+	</devices>
+	
+</settings>
