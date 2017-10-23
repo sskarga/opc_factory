@@ -182,12 +182,12 @@ begin
     try
       // active
       handle := AddItem('active', 4, StrToInt(confNode.Attributes['active_idopc']), false );
-      listObjectPos := itemlist.Add( TDevItem.Create(handle, 'active', 0, Null, False ) );
+      listObjectPos := itemlist.Add( TDevItem.Create(handle, 'active', 0, 0, False ) );
       tmpitm := serv.items[handle];
 
       // reactive
       handle := AddItem('reactive', 4, StrToInt(confNode.Attributes['reactive_idopc']), false );
-      listObjectPos := itemlist.Add( TDevItem.Create(handle, 'reactive', 0, Null, False ) );
+      listObjectPos := itemlist.Add( TDevItem.Create(handle, 'reactive', 0, 0, False ) );
       tmpitm := serv.items[handle];
 
       // создание запросов на открытие, закрытие, получение атинвой и реактивной энергий
@@ -211,7 +211,7 @@ begin
       begin
         nameTag := 'u'+IntToStr(i);
         handle := AddItem(nameTag, 4, StrToInt(confNode.Attributes[nameTag+'_idopc']), False);
-        listObjectPos := itemlist.Add( TDevItem.Create(handle, nameTag, 0, Null, False ) );
+        listObjectPos := itemlist.Add( TDevItem.Create(handle, nameTag, 0, 0, False ) );
         tmpitm := serv.items[handle];
 
         sendCmd[0]:= StrToInt(Self.adress);
@@ -252,7 +252,7 @@ begin
       begin
         nameTag := 'i'+IntToStr(i);
         handle := AddItem(nameTag, 4, StrToInt(confNode.Attributes[nameTag+'_idopc']), False );
-        listObjectPos := itemlist.Add( TDevItem.Create(handle, nameTag, 0, Null, False ) );
+        listObjectPos := itemlist.Add( TDevItem.Create(handle, nameTag, 0, 0, False ) );
         tmpitm := serv.items[handle];
 
         sendCmd[0]:= StrToInt(Self.adress);
@@ -269,7 +269,7 @@ begin
         SetLength( momentValue, momentValueCount);
         momentValue[momentValueCount-1] := TMomentValue.Create;
         momentValue[momentValueCount-1].handle := itemlist.Items[listObjectPos] ;
-        momentValue[momentValueCount-1].factor := factorVoltage;
+        momentValue[momentValueCount-1].factor := factorCurrent;
 
         CalcCRCMercury(6, @sendCmd);
         Move(sendCmd[0],momentValue[momentValueCount-1].cmd[0],6 );
@@ -310,7 +310,7 @@ begin
         SetLength( momentValue, momentValueCount);
         momentValue[momentValueCount-1] := TMomentValue.Create;
         momentValue[momentValueCount-1].handle := itemlist.Items[listObjectPos] ;
-        momentValue[momentValueCount-1].factor := factorVoltage;
+        momentValue[momentValueCount-1].factor := factorCurrent * factorVoltage;
 
         CalcCRCMercury(6, @sendCmd);
         Move(sendCmd[0],momentValue[momentValueCount-1].cmd[0],6 );
@@ -533,7 +533,7 @@ begin
               begin
                 TDevItem(momentValue[i].handle).value := Byte21ToDword(@responseToCmd,2) * momentValue[i].factor;
                 serv.items[TDevItem(momentValue[i].handle).handle].Quality := OPC_QUALITY_GOOD;
-                log.debug('Mercury. Response moment data. Send: '+ByteToHexStr(momentValue[i].cmd,6) + 'Response raw:' +ByteToHexStr(responseToCmd,count) );
+                //log.debug('Mercury. Response moment data. Send: '+ByteToHexStr(momentValue[i].cmd,6) + 'Response raw:' +ByteToHexStr(responseToCmd,count) );
               end
               else
               begin

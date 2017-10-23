@@ -443,10 +443,25 @@ begin
 
     for i := 0 to serialPorts.ChildNodes.Count - 1 do
     begin
-      serialPortNum := StrToInt(serialPorts.ChildNodes[i].Attributes['numbercom']);
-      confBaudRate := Trim(serialPorts.ChildNodes[i].Attributes['baudrate']);
-      cicleTimeMs := StrToInt(serialPorts.ChildNodes[i].Attributes['cycletime']);
+	  serialPortNum := StrToInt(serialPorts.ChildNodes[i].Attributes['numbercom']);
+	
+	  // default
+      confBaudRate := '9600';
+      cicleTimeMs  := 1000;
 
+      if serialPorts.ChildNodes[i].HasAttribute('baudrate') then
+        confBaudRate := Trim(serialPorts.ChildNodes[i].Attributes['baudrate'])
+      else
+      begin
+        log.error('- COM' + IntToStr(serialPortNum) + ' = Not set attribute "baudrate".');
+        raise Exception.Create('Not set attribute "baudrate"');
+      end;
+
+      if serialPorts.ChildNodes[i].HasAttribute('cycletime') then
+        cicleTimeMs := StrToInt(serialPorts.ChildNodes[i].Attributes['cycletime'])
+      else
+        log.Warn('- COM' + IntToStr(serialPortNum) + ' = Not set attribute "cycletime". Default cycletime = 1000');
+		
       if cicleTimeMs <= 100 then cicleTimeMs := 100;
 
       serialPortBRate := TBaudRate(GetEnumValue(TypeInfo(TBaudRate), 'br' + confBaudRate ));
